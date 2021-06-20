@@ -18,7 +18,7 @@
                 <v-tab-item>
                   <v-form ref="login">
                    <v-text-field 
-                    label="Username or Email" 
+                    label="Username" 
                     v-model="login_form.username">
                    </v-text-field>
                    <password-field v-model="login_form.password"></password-field>
@@ -112,7 +112,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fakeLogin', 'fakeRegister']),
+    ...mapActions(['postLogin', 'postRegister']),
     onFormChange(tab){
       if (tab == 1){
         this.$refs.login?.reset()
@@ -124,13 +124,13 @@ export default {
     },
     login(){
         this.process(async () => {
-          await this.fakeLogin(this.login_form)
+          await this.postLogin(this.login_form)
           this.$router.replace('/')
         })
     },
     register(){
         this.process(async () => {
-          await this.fakeRegister(this.register_form)
+          await this.postRegister(this.register_form)
           this.$router.replace('/')
         })
     },
@@ -139,7 +139,7 @@ export default {
         try {
           await handle()
         }catch(err){
-          this.errorMessage = err.message
+          this.errorMessage = err.response.data.message
         }finally{
           this.loading = false
         }

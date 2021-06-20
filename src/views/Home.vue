@@ -80,15 +80,15 @@ import { mapActions } from 'vuex'
       }
     },
     methods: {
-      ...mapActions(['fakeLogout']),
+      ...mapActions(['postLogout']),
       logout(){
         this.loading = true
-        this.fakeLogout()
+        this.postLogout()
         .then(() => {
           this.$emit('notify', 'Logout Success')
         })
         .catch(err => {
-          this.$emit('notify', `Logout Error: ${err.message}`)
+          this.$emit('notify', `Logout Error: ${err.response.data.message}`)
         })
         .finally(() => {
           this.loading = false

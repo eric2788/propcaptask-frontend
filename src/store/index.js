@@ -10,44 +10,25 @@ const wait = (seconds) => new Promise((res, ) => setTimeout(res, seconds * 1000)
 
 const realActions = {
     // real
-    async login({commit}, data){
+    async postLogin({commit}, data){
       const res = await axios.post('/login', data)
-      if (!res.error){
-        commit('updateToken', res.token)
-      }else{
-        throw new Error(res.error)
-      }
+      commit('updateToken', res.data.token)
     },
-    async register({commit}, data){
+    async postRegister({commit}, data){
       const res = await axios.post('/register', data)
-      if (!res.error){
-        commit('updateToken', res.token)
-      }else{
-        throw new Error(res.error)
-      }
+      commit('updateToken', res.data.token)
     },
-    async loadUsers({state}){
-      const res = await axios.get('/users', {token: state.token})
-      if (!res.error){
-        return res
-      }else{
-        throw new Error(res.error)
-      }
+    async getUsers(context, {page = 1, sortBy = "username", descending = false} = {}){
+      const res = await axios.get(`/users?page=${page}&sortBy=${sortBy}&descending=${descending}`)
+      return res.data
     },
-    async updatePassword({state, commit}, data){
-      const res = await axios.post('/password', {token: state.token, data})
-      if (!res.error){
-        if (res.token) commit('updateToken', res.token)
-      }else{
-        throw new Error(res.error)
-      }
+    async postUpdatePassword({ commit}, data){
+      const res = await axios.post('/password', data)
+      if (res.data.token) commit('updateToken', res.data.token)
     },
-    async logout({state, commit}){
-      const res = await axios.post('/logout', {token: state.token})
+    async postLogout({commit}){
+      await axios.post('/logout')
       commit('updateToken', null)
-      if (res.error){
-        throw new Error(res.error)
-      }
     }
 }
 
@@ -108,6 +89,7 @@ export default new Vuex.Store({
   mutations: {
     updateToken(state, token){
       state.token = token
+      axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null
     }
   },
   getters: {
@@ -116,7 +98,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    ...fakeActions
+    ...realActions
   },
   modules: {
   }

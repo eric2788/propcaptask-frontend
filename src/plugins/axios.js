@@ -6,12 +6,17 @@ import axios from "axios";
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 let config = {
-  baseURL: 'http://127.0.0.1:1234',
+  baseURL: 'https://propcaptaskapi.chu77.xyz',
   timeout: 60 * 1000, // Timeout
-  withCredentials: true, // Check cross-site Access-Control
+  withCredentials: false, // Check cross-site Access-Control
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  },
+  responseType: 'json'
 };
 
 const _axios = axios.create(config);

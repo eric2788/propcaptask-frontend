@@ -41,15 +41,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fakeUpdatePassword']),
+    ...mapActions(['postUpdatePassword']),
     updatePassword(){
       this.loading = true
-      this.fakeUpdatePassword({pw: this.pw, new_pw: this.new_pw})
+      this.postUpdatePassword({pw: this.pw, new_pw: this.new_pw})
       .then(() => {
         this.$refs.password.reset()
         this.$emit('notify', 'The password has been updated.')
       })
-      .catch(err => this.errorMessage = err.message)
+      .catch(err => this.errorMessage = err.response.data.message)
       .finally(() => this.loading = false)
     }
   }

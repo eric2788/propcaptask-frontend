@@ -15,7 +15,7 @@
               <v-tab>Register</v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
-                <v-tab-item>
+                <v-tab-item @keyup.enter="enterLogin">
                   <v-form ref="login">
                    <v-text-field 
                     label="Username" 
@@ -25,7 +25,7 @@
                    <v-btn block color="primary white--text" :disabled="!loginNotEmpty" :loading="loading" @click="login">Login</v-btn>
                   </v-form>
                 </v-tab-item>
-                <v-tab-item>
+                <v-tab-item @keyup.enter="enterRegister">
                   <v-form v-model="valid" ref="register">
                    <v-text-field 
                       label="Email" 
@@ -47,9 +47,10 @@
                       label="Confirm password" 
                       type="password"
                       :rules="confirmPasswordRules"
-                      v-model="register_form.confirm_password">
+                      v-model="register_form.confirm_password"
+                      >
                    </v-text-field>
-                   <v-btn block color="primary white--text" :disabled="!valid" :loading="loading" @click="register">Register</v-btn>
+                   <v-btn block color="primary white--text" :disabled="!valid" :loading="loading" @click="register" @keyup.enter="register">Register</v-btn>
                   </v-form>
                 </v-tab-item>
             </v-tabs-items>
@@ -133,6 +134,12 @@ export default {
           await this.postRegister(this.register_form)
           this.$router.replace('/')
         })
+    },
+    enterLogin(){
+      if (this.loginNotEmpty && !this.loading) this.login()
+    },
+    enterRegister(){
+      if (this.valid && !this.loading) this.register()
     },
     async process(handle){
       this.loading = true

@@ -5,10 +5,10 @@
         <h3>You must Authenticate to do that.</h3>
       </v-row>
       <v-row align="center" justify="center">
-        <v-alert :value="!!errorMessage" type="error" min-width="400" max-width="700"> {{ errorMessage }}</v-alert>
+        <v-alert :value="!!errorMessage" type="error" max-width="700"> {{ errorMessage }}</v-alert>
       </v-row>
       <v-row align="center" justify="center">
-        <v-card color="white" max-width="700" min-width="400">
+        <v-card color="white" max-width="700">
           <v-card-text>
             <v-tabs v-model="tab" @change="onFormChange">
               <v-tab>Login</v-tab>

@@ -88,7 +88,7 @@ import { mapActions } from 'vuex'
           this.$emit('notify', 'Logout Success')
         })
         .catch(err => {
-          this.$emit('notify', `Logout Error: ${err.response.data.message}`)
+          this.$emit('notify', `Logout Error: invalid credentials. (${err.response.data.error})`)
         })
         .finally(() => {
           this.loading = false

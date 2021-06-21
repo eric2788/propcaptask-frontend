@@ -27,8 +27,11 @@ const realActions = {
       if (res.data.token) commit('updateToken', res.data.token)
     },
     async postLogout({commit}){
-      await axios.post('/logout')
-      commit('updateToken', null)
+      try {
+        await axios.post('/logout')
+      } finally {
+        commit('updateToken', null)
+      }
     }
 }
 
